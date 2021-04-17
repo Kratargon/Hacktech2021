@@ -3,8 +3,8 @@ from Utils.utils import add
 
 
 class Pawn(Piece.Piece):
-    def __init__(self, board, square):
-        super().__init__(board, square)
+    def __init__(self, board, square, color):
+        super().__init__(board, square, color, "pawn")
         self.piece_moves = [(0, 1)]
         self.capture_moves = [(1, 1), (-1, 1)]
         self.first_turn = False

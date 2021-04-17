@@ -10,14 +10,15 @@ board.white_pieces = pygame.sprite.Group()
 board.black_pieces = pygame.sprite.Group()
 
 screen = board.create_board()
-
+board.screen = screen
 wking = Pieces.King(board, board.get_square((4, 7)), True)
-wrook = Pieces.Rook(board, board.get_square((1, 1)), True)
+brook = Pieces.Rook(board, board.get_square((1, 1)), False)
 wbishop = Pieces.Bishop(board, board.get_square((5, 5)), True)
 
-board.white_pieces.add(wking, wrook, wbishop)
+board.white_pieces.add(wking, wbishop)
+board.black_pieces.add(brook)
 gameEnd = False
-
+selected: Pieces.Piece = None
 
 while not gameEnd:
     for event in pygame.event.get():
@@ -25,13 +26,28 @@ while not gameEnd:
             gameEnd = True
         if event.type == pygame.MOUSEBUTTONDOWN:
             square = board.get_square((pygame.mouse.get_pos()[0] // 80, pygame.mouse.get_pos()[1] // 80))
-            print((pygame.mouse.get_pos()[0] // 80, pygame.mouse.get_pos()[1] // 80))
+
+            if selected is None:
+                selected = square.piece
+
+            elif selected is not None:
+                if selected:
+                    pass
+                if any(square == board.get_square(i) for i in selected.moves):
+                    selected.move(square.board_pos)
+                    selected = None
+
             if square.piece is not None:
-                print(square)
-                square.piece.on_select()
+                if selected:
+                    if any(square == board.get_square(i) for i in selected.moves):
+                        selected.capture(square.piece)
+                    else:
+                        selected = square.piece
+
             else:
                 wpawn = Pieces.Pawn(board, square, True)
                 board.white_pieces.add(wpawn)
+            print(selected)
 
     for i in board.board:
         for k in i:
@@ -40,5 +56,7 @@ while not gameEnd:
     board.white_pieces.draw(screen)
 
     board.black_pieces.draw(screen)
+    if selected is not None:
+        selected.on_select()
 
     pygame.display.flip()

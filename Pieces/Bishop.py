@@ -13,26 +13,36 @@ class Bishop(Piece.Piece):
         for i in range(1, self.board.size):
             newpos = add(self.game_pos, (i, i))
             if self.board.check_bounds(newpos):
-                moves.append(newpos)
-                print(newpos)
-                if self.board.get_square(newpos).has_piece:
+                if self.board.get_square(newpos).has_piece and newpos != self.pos:
+                    if self.can_capture(newpos):
+                        moves.append(newpos)
                     break
+                moves.append(newpos)
 
+        for i in range(1, self.board.size):
             newpos = add(self.game_pos, (i, -i))
             if self.board.check_bounds(newpos):
-                moves.append(newpos)
-                if self.board.get_square(newpos).has_piece:
+                if self.board.get_square(newpos).has_piece and newpos != self.pos:
+                    if self.can_capture(newpos):
+                        moves.append(newpos)
                     break
+                moves.append(newpos)
 
+        for i in range(1, self.board.size):
             newpos = add(self.game_pos, (-i, i))
             if self.board.check_bounds(newpos):
-                moves.append(newpos)
-                if self.board.get_square(newpos).has_piece:
+                if self.board.get_square(newpos).has_piece and newpos != self.pos:
+                    if self.can_capture(newpos):
+                        moves.append(newpos)
                     break
+                moves.append(newpos)
 
+        for i in range(1, self.board.size):
             newpos = add(self.game_pos, (-i, -i))
             if self.board.check_bounds(newpos):
-                moves.append(newpos)
-                if self.board.get_square(newpos).has_piece:
+                if self.board.get_square(newpos).has_piece and newpos != self.pos:
+                    if self.can_capture(newpos):
+                        moves.append(newpos)
                     break
+                moves.append(newpos)
         return moves

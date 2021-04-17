@@ -7,13 +7,11 @@ class Board:
     def __init__(self, size: int):
         self.size = size
         self.board = [[] for i in range(size)]
-        # for i in range(size):
-        #     for k in range(size):
-        #         self.board[i].append(Square.Square((i, k)))
         self.board_rects = []
         self.board_sprites = pygame.sprite.Group()
         self.white_pieces = None
         self.black_pieces = None
+        self.screen = None
 
     def create_board(self):
         temp = pygame.display.set_mode((self.size * self.size * 10, self.size * self.size * 10))

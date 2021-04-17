@@ -5,8 +5,6 @@ from Utils.utils import add
 class Pawn(Piece.Piece):
     def __init__(self, board, square, color):
         super().__init__(board, square, color, "pawn")
-        self.piece_moves = [(0, 1)]
-        self.capture_moves = [(1, 1), (-1, 1)]
         self.first_turn = False
 
     def generate_moves(self):
@@ -15,10 +13,16 @@ class Pawn(Piece.Piece):
             moves.append(add(self.pos, (0, 2)))
 
         newpos = add(self.pos, (0, 1))
-        if self.board.check_bounds(newpos):
+        if self.board.check_bounds(newpos) and not self.board.get_square(newpos):
             moves.append(newpos)
 
-        return newpos
+        newpos = add(self.pos, (1, 1))
+        if self.board.check_bounds(newpos) and self.can_capture(newpos):
+            moves.append(newpos)
 
-    # todo: pawn capturing
+        newpos = add(self.pos, (-1, 1))
+        if self.board.check_bounds(newpos) and self.can_capture(newpos):
+            moves.append(newpos)
+
+        return moves
 

@@ -13,48 +13,41 @@ class Rook(Piece.Piece):
         for i in range(self.game_pos[1], self.board.size, 1):
             newpos = add(self.game_pos, (0, i))
             if self.board.check_bounds(newpos):
-                moves.append(newpos)
-                # print("in down: appending", newpos, self.game_pos)
-
-                if self.board.get_square(newpos).has_piece:
+                if self.board.get_square(newpos).has_piece and newpos != self.pos:
+                    if self.can_capture(newpos):
+                        moves.append(newpos)
                     break
-        print("out of first")
+                moves.append(newpos)
 
         # up
         for i in range(self.game_pos[1], -1, -1):
             newpos = add(self.game_pos, (0, -i))
-            print(newpos)
             if self.board.check_bounds(newpos):
-                moves.append(newpos)
-                # print("in up: appending", newpos, self.game_pos)
-
-                if self.board.get_square(newpos).has_piece and newpos != self.game_pos:
+                if self.board.get_square(newpos).has_piece and newpos != self.pos:
+                    if self.can_capture(newpos):
+                        moves.append(newpos)
                     break
-        print("out of second")
+                moves.append(newpos)
 
         # right
         for i in range(self.game_pos[0], self.board.size, 1):
             newpos = add(self.game_pos, (i, 0))
             if self.board.check_bounds(newpos):
-                moves.append(newpos)
-                # print("in right: appending", newpos, self.game_pos)
-
-                if self.board.get_square(newpos).has_piece:
+                if self.board.get_square(newpos).has_piece and newpos != self.pos:
+                    if self.can_capture(newpos):
+                        moves.append(newpos)
                     break
-
-        print("out of third")
+                moves.append(newpos)
 
         # left
         for i in range(self.game_pos[0], -1, -1):
             newpos = add(self.game_pos, (-i, 0))
-            if self.board.check_bounds(newpos):
-                moves.append(newpos)
-                # print("in left: appending", newpos, self.game_pos)
-                if self.board.get_square(newpos).has_piece:
-                    break
+            if self.board.get_square(newpos).has_piece and newpos != self.pos:
+                if self.can_capture(newpos):
+                    moves.append(newpos)
+                break
+            moves.append(newpos)
 
-        print("out of fourtH")
-        print(moves)
         return moves
 
 

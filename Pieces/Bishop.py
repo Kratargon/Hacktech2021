@@ -19,6 +19,6 @@ class Bishop(Piece.Piece):
             if self.board.check_bounds(newpos):
                 if self.board.get_square(newpos).has_piece and newpos != self.game_pos:
                     if self.can_capture(newpos):
-                        moves.append(newpos)
+                        self.moves.append(newpos)
                     break
                 self.moves.append(newpos)

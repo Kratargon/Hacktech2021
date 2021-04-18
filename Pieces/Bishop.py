@@ -1,3 +1,4 @@
+from Bonuses import Bonus
 from Pieces import Piece
 from Utils.utils import add
 
@@ -5,6 +6,8 @@ from Utils.utils import add
 class Bishop(Piece.Piece):
     def __init__(self, board, square, color):
         super().__init__(board, square, color, "bishop")
+        self.bonuses = {Bonus.Horizontal: False, Bonus.Knighted: False}
+
 
     def generate_moves(self):
         self.moves = []

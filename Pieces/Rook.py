@@ -1,10 +1,11 @@
+from Bonuses import Bonus
 from Pieces import Piece
-from Utils.utils import add
 
 
 class Rook(Piece.Piece):
     def __init__(self, board, square, color):
         super().__init__(board, square, color, "rook")
+        self.bonuses = {Bonus.Knighted: False, Bonus.Diagonal: False}
 
     def generate_moves(self):
         moves = []

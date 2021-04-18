@@ -1,5 +1,7 @@
 import operator, pygame
 
+from Bonuses import Bonus
+
 from Board import Board, Square
 
 
@@ -18,6 +20,8 @@ class Piece(pygame.sprite.Sprite):
         self.rect.x = self.pos[0]
         self.rect.y = self.pos[1]
         self.moves = self.generate_moves()
+        self.bonuses = {}
+
 
     @staticmethod
     def load_resource(color: bool, name: str):
@@ -29,8 +33,6 @@ class Piece(pygame.sprite.Sprite):
     def can_capture_(self, pos: tuple) -> bool:
         self.moves = self.generate_moves()
         return self.board.get_square(pos).has_piece and self.board.get_square(pos).piece.color is not self.color and pos in self.moves
-
-
 
     # def can_move(self, pos: tuple) -> bool:
     #     possible_locs = [add(self.pos, move) for move in self.piece_moves]

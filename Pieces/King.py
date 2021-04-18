@@ -10,19 +10,19 @@ class King(Piece.Piece):
         self.value = 100
         self.bonuses = {Bonus.Knighted(): k}
 
-    def in_check(self) -> bool:
-        return any(piece.can_capture_(self.game_pos) for piece in self.board.get_enemy_pieces(self.color))
-
-    def check_if_check(self, pos) -> bool:
-        res = []
-        for piece in self.board.get_enemy_pieces(self.color):
-            if isinstance(piece, Pieces.Pawn):
-                temp_moves = piece.simulate_capture(pos)
-            else:
-                temp_moves = piece.moves
-            res.append(any(pos == move for move in list(set(temp_moves))))
-
-        return any(res)
+    # def in_check(self) -> bool:
+    #     return any(piece.can_capture_(self.game_pos) for piece in self.board.get_enemy_pieces(self.color))
+    #
+    # def check_if_check(self, pos) -> bool:
+    #     res = []
+    #     for piece in self.board.get_enemy_pieces(self.color):
+    #         if isinstance(piece, Pieces.Pawn):
+    #             temp_moves = piece.simulate_capture(pos)
+    #         else:
+    #             temp_moves = piece.moves
+    #         res.append(any(pos == move for move in list(set(temp_moves))))
+    #
+    #     return any(res)
 
     def generate_moves(self):
         tuples = [(1, 0), (-1, 0), (0, 1), (0, -1),

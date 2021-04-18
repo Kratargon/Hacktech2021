@@ -21,7 +21,7 @@ class Horizontal:
 
     @staticmethod
     def get_name():
-        return ["Horizontal Upgrade: 2", "Gives a piece the ability to move like a rook"]
+        return ["Straight Upgrade: 2", "Gives a piece the ability to move like a rook"]
 
 
 class Knighted:

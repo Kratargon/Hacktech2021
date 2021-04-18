@@ -1,7 +1,3 @@
-import pygame
-
-from CBoard import Board
-import Pieces
 import random
 
 
@@ -11,10 +7,11 @@ def randFrom(moveList, weights):
         tot += i
     temp = random.randint(0, tot)
     tmp = 0
-    for i in range(weights):
+    for i in range(len(weights)):
         tmp += weights[i]
         if temp < tmp:
             return moveList[i]
+
 
 def createWeights(moveList, board):
     weights = []
@@ -22,8 +19,10 @@ def createWeights(moveList, board):
         weights.append(weightMove(i, board))
     return weights
 
+
 def weightMove(move, board):
     return move[0].move_val(move[1]) - board.calculate_value() + 40
+
 
 def logicHandler(board):
     moveList = generateMoves(board)
@@ -31,9 +30,12 @@ def logicHandler(board):
     move = randFrom(moveList, weights)
     return move
 
+
 def generateMoves(board):
     moveList = []
     for i in board.black_pieces:
         if i.has_move():
             for j in i.moves:
                 moveList.append((i, j))
+
+    return moveList

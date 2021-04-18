@@ -2,6 +2,7 @@ import random
 import pygame
 
 import Bonuses
+from AI.AILogic import logicHandler
 from CBoard import Board
 from CBoard import board_gen
 import Pieces
@@ -179,11 +180,13 @@ while not end:
                                     selected = square.piece
 
             if not two_player and not turn:
-                rand_piece = random.choice([i for i in board.black_pieces])
-                while not rand_piece.moves:
-                    rand_piece = random.choice([i for i in board.black_pieces])
+                # rand_piece = random.choice([i for i in board.black_pieces])
+                # while not rand_piece.moves:
+                #     rand_piece = random.choice([i for i in board.black_pieces])
 
-                rand_piece.move(random.choice(rand_piece.moves))
+                temp = logicHandler(board)
+
+                temp[0].move(temp[1])
                 turn = True
 
             for i in board.board:

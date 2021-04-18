@@ -12,7 +12,7 @@ class Bounds:
 
 def gen_board(board: Board, wdupgrades, whupgrades, wkupgrades, bdupgrades, bhupgrades, bkupgrades):
     size = Bounds(0, board.size)
-    gen_pawns(board)
+    gen_pawns(board, True if "queen" in wkupgrades else False, True if "queen" in bkupgrades else False)
     for i in range(board.size // 2 - 1):
         if i % 3 == 0:
             gen_rooks(board, size, i, True if "rook" in wdupgrades else False, True if "rook" in wkupgrades else False,
@@ -29,10 +29,10 @@ def gen_board(board: Board, wdupgrades, whupgrades, wkupgrades, bdupgrades, bhup
     return kings
 
 
-def gen_pawns(board: Board):
+def gen_pawns(board: Board, wk, bk):
     for i in range(board.size):
-        board.white_pieces.add(Pieces.Pawn(board, board.get_square((i, board.size - 2)), white))
-        board.black_pieces.add(Pieces.Pawn(board, board.get_square((i, 1)), black))
+        board.white_pieces.add(Pieces.Pawn(board, board.get_square((i, board.size - 2)), white, wk))
+        board.black_pieces.add(Pieces.Pawn(board, board.get_square((i, 1)), black, bk))
 
 
 def gen_rooks(board: Board, size, i, wd: bool = None, wk: bool = None, bd: bool = None, bk: bool = None):
@@ -70,3 +70,4 @@ def gen_kings(board: Board, k, bk):
     board.white_pieces.add(kings["white"])
     board.black_pieces.add(kings["black"])
     return kings
+

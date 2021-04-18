@@ -49,7 +49,7 @@ class King(Piece.Piece):
                 else:
                     moves.append(i)
 
-        for i in moves:
-            if self.check_if_check(i):
-                moves.remove(i)
+        # for i in moves:
+        #     if self.check_if_check(i):
+        #         moves.remove(i)
         return moves

@@ -17,15 +17,20 @@ class Piece(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.x = self.pos[0]
         self.rect.y = self.pos[1]
-        self.moves = []
+        self.moves = self.generate_moves()
 
     @staticmethod
     def load_resource(color: bool, name: str):
         return "textures/" + ("w" if color else "b") + name + ".png"
 
     def can_capture(self, pos: tuple) -> bool:
-        if self.board.get_square(pos).has_piece and self.board.get_square(pos).piece.color is not self.color:
-            return True
+        return self.board.get_square(pos).has_piece and self.board.get_square(pos).piece.color is not self.color
+
+    def can_capture_(self, pos: tuple) -> bool:
+        self.moves = self.generate_moves()
+        return self.board.get_square(pos).has_piece and self.board.get_square(pos).piece.color is not self.color and pos in self.moves
+
+
 
     # def can_move(self, pos: tuple) -> bool:
     #     possible_locs = [add(self.pos, move) for move in self.piece_moves]
@@ -45,6 +50,7 @@ class Piece(pygame.sprite.Sprite):
             self.board.get_square(newpos).has_piece = True
             self.board.get_square(newpos).piece = self
             self.square = self.board.get_square(newpos)
+        self.moves = self.generate_moves()
 
     def capture(self, pos):
         self.board.get_square(pos).piece.kill()
@@ -59,7 +65,6 @@ class Piece(pygame.sprite.Sprite):
         return []
 
     def on_select(self):
-        self.moves = self.generate_moves()
         for i in self.moves:
             self.board.screen.blit(self.board.get_square(i).image, self.board.get_square(i).pos)
 
@@ -67,6 +72,7 @@ class Piece(pygame.sprite.Sprite):
         return self.board.get_square(newpos).has_piece and newpos != self.pos and self.can_capture(newpos)
 
     def update_piece(self):
+        self.moves = self.generate_moves()
         self.pos = self.game_pos[0] * 80, self.game_pos[1] * 80
         self.rect.x = self.pos[0]
         self.rect.y = self.pos[1]

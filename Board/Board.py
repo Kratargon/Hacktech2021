@@ -46,3 +46,8 @@ class Board:
 
     def check_bounds(self, pos: tuple) -> bool:
         return 0 <= pos[0] < self.size and 0 <= pos[1] < self.size
+
+    def get_enemy_pieces(self, color):
+        if color:
+            return self.black_pieces
+        return self.white_pieces

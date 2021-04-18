@@ -1,4 +1,5 @@
 import operator
+import sys
 
 from Pieces import Piece
 from Utils.utils import add
@@ -9,17 +10,29 @@ class King(Piece.Piece):
         super().__init__(board, square, color, "king")
         self.has_moved = False
 
-    def in_check(self) -> bool:
-        return any(True is i.can_capture(self.square.pos) for i in self.board.get_enemy_pieces(self.color))
+    def in_check(self, pos=None) -> bool:
+        if pos is None:
+            pos = self.game_pos
+        ls = []
+        for piece in self.board.get_enemy_pieces(self.color):
+            ls.append(piece.can_capture_(self.game_pos))
+            # ls.append(any(self.game_pos == i for i in piece.moves))
+        return any(ls)
 
     def checkmate(self) -> bool:
-        for move in self.piece_moves:
-            if self.can_move(self.board.get_square(tuple(map(operator.add, self.pos, move)))):
-                return False
-        return True
+        possible_moves = [i for i in self.moves]
+        fail = []
+        for i in possible_moves:
+            if self.in_check(i):
+                fail.append(True)
+            else:
+                fail.append(False)
+        if self.in_check():
+            fail.append(True)
+        return all(fail)
 
     def generate_moves(self):
-        moves = []
+        self.moves = []
 
         # up right
         for i in range(-1, 2):
@@ -27,71 +40,71 @@ class King(Piece.Piece):
             if self.board.check_bounds(newpos):
                 if self.board.get_square(newpos).has_piece and newpos != self.pos:
                     if self.can_capture(newpos):
-                        moves.append(newpos)
+                        self.moves.append(newpos)
                     break
-                moves.append(newpos)
+                self.moves.append(newpos)
 
         for i in range(-1, 2):
             newpos = add(self.game_pos, (i, -i))
             if self.board.check_bounds(newpos):
                 if self.board.get_square(newpos).has_piece and newpos != self.pos:
                     if self.can_capture(newpos):
-                        moves.append(newpos)
+                        self.moves.append(newpos)
                     break
-                moves.append(newpos)
+                self.moves.append(newpos)
 
         for i in range(-1, 2):
             newpos = add(self.game_pos, (-i, i))
             if self.board.check_bounds(newpos):
                 if self.board.get_square(newpos).has_piece and newpos != self.pos:
                     if self.can_capture(newpos):
-                        moves.append(newpos)
+                        self.moves.append(newpos)
                     break
-                moves.append(newpos)
+                self.moves.append(newpos)
 
         for i in range(-1, 2):
             newpos = add(self.game_pos, (-i, -i))
             if self.board.check_bounds(newpos):
                 if self.board.get_square(newpos).has_piece and newpos != self.pos:
                     if self.can_capture(newpos):
-                        moves.append(newpos)
+                        self.moves.append(newpos)
                     break
-                moves.append(newpos)
+                self.moves.append(newpos)
 
         for i in range(-1, 2):
             newpos = add(self.game_pos, (0, i))
             if self.board.check_bounds(newpos):
                 if self.board.get_square(newpos).has_piece and newpos != self.pos:
                     if self.can_capture(newpos):
-                        moves.append(newpos)
+                        self.moves.append(newpos)
                     break
-                moves.append(newpos)
+                self.moves.append(newpos)
 
         for i in range(-1, 2):
             newpos = add(self.game_pos, (0, -i))
             if self.board.check_bounds(newpos):
                 if self.board.get_square(newpos).has_piece and newpos != self.pos:
                     if self.can_capture(newpos):
-                        moves.append(newpos)
+                        self.moves.append(newpos)
                     break
-                moves.append(newpos)
+                self.moves.append(newpos)
 
         for i in range(-1, 2):
             newpos = add(self.game_pos, (i, 0))
             if self.board.check_bounds(newpos):
                 if self.board.get_square(newpos).has_piece and newpos != self.pos:
                     if self.can_capture(newpos):
-                        moves.append(newpos)
+                        self.moves.append(newpos)
                     break
-                moves.append(newpos)
+                self.moves.append(newpos)
 
         for i in range(-1, 2):
             newpos = add(self.game_pos, (-i, 0))
             if self.board.check_bounds(newpos):
                 if self.board.get_square(newpos).has_piece and newpos != self.pos:
                     if self.can_capture(newpos):
-                        moves.append(newpos)
+                        self.moves.append(newpos)
                     break
-                moves.append(newpos)
+                self.moves.append(newpos)
 
-        return moves
+        return self.moves

@@ -13,7 +13,7 @@ class Pawn(Piece.Piece):
             moves.append(add(self.pos, (0, 2)))
 
         newpos = add(self.pos, (0, 1))
-        if self.board.check_bounds(newpos) and not self.board.get_square(newpos):
+        if self.board.check_bounds(newpos) and not self.board.get_square(newpos).has_piece:
             moves.append(newpos)
 
         newpos = add(self.pos, (1, 1))

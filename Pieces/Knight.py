@@ -1,15 +1,21 @@
 from Pieces import Piece
+from Utils.utils import add
 
 
 class Knight(Piece.Piece):
-    def __init__(self, board, square):
-        super().__init__(board, square)
+    def __init__(self, board, square, color):
+        super().__init__(board, square, color, "knight")
 
-        for i in range(-2, 3, 4):
-            for j in range(-1, 2, 2):
-                self.piece_moves.append((i, j))
+    def generate_moves(self):
+        moves = []
+        tuples = [(-2, -1), (-1, -2), (1, 2), (2, 1), (-1, 2), (-2, 1), (2, -1), (1, -2)]
+        for i in tuples:
+            newpos = add(self.game_pos, i)
+            if self.board.check_bounds(newpos):
+                if self.board.get_square(newpos).has_piece:
+                    if self.can_capture(newpos):
+                        moves.append(newpos)
+                moves.append(newpos)
 
-        for i in range(-1, 2, 2):
-            for j in range(-2, 3, 4):
-                self.piece_moves.append((i, j))
-
+        self.moves = moves
+        return moves

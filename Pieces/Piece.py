@@ -65,6 +65,7 @@ class Piece(pygame.sprite.Sprite):
         return []
 
     def on_select(self):
+        self.generate_moves()
         for i in self.moves:
             self.board.screen.blit(self.board.get_square(i).image, self.board.get_square(i).pos)
 

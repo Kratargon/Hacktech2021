@@ -1,3 +1,5 @@
+import copy
+
 import pygame
 
 from CBoard import Board, Square
@@ -78,6 +80,9 @@ class Piece(pygame.sprite.Sprite):
         self.rect.x = self.pos[0]
         self.rect.y = self.pos[1]
         self.unique_update()
+
+    def has_move(self) -> bool:
+        return len(self.moves) > 0
 
     def unique_update(self):
         pass

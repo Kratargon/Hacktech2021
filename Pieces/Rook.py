@@ -5,6 +5,7 @@ from Utils.utils import add
 
 class Rook(Piece.Piece):
     def __init__(self, board, square, color):
+        self.value = 5
         super().__init__(board, square, color, "rook")
         self.bonuses = {Bonus.Knighted(): True, Bonus.Diagonal(): False}
 

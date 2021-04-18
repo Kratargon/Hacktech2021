@@ -6,6 +6,7 @@ from Utils.utils import add
 class Queen(Piece.Piece):
     def __init__(self, board, square, color):
         self.bonuses = {Bonus.Knighted(): False}
+        self.value = 9
         super().__init__(board, square, color, "queen")
 
     def generate_moves(self):

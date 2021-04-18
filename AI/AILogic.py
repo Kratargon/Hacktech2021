@@ -1,6 +1,6 @@
 import pygame
 
-from Board import Board
+from CBoard import Board
 import Pieces
 import random
 

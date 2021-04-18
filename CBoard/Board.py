@@ -1,6 +1,7 @@
 import pygame
 
-from Board import Square
+from CBoard import Square
+from Pieces import white, black
 
 
 class Board:
@@ -55,3 +56,9 @@ class Board:
         if color:
             return self.black_pieces
         return self.white_pieces
+
+    def get_point_value(self, color):
+        return sum([i.value for i in (self.white_pieces if color else self.black_pieces)])
+
+    def calculate_value(self):
+        return 40 + self.get_point_value(white) - self.get_point_value(black)

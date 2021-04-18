@@ -5,6 +5,7 @@ from Bonuses import Bonus
 
 class Knight(Piece.Piece):
     def __init__(self, board, square, color):
+        self.value = 3
         self.bonuses = {Bonus.Horizontal(): False, Bonus.Diagonal(): False}
         super().__init__(board, square, color, "knight")
 
@@ -17,11 +18,8 @@ class Knight(Piece.Piece):
             if self.board.check_bounds(newpos):
                 if self.board.get_square(newpos).has_piece:
                     if self.can_capture(newpos):
-                        print("here")
                         moves.append(newpos)
                 else:
                     moves.append(newpos)
-
-        self.moves = moves
 
         return moves

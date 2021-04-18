@@ -6,17 +6,16 @@ from Utils.utils import add
 class King(Piece.Piece):
     def __init__(self, board, square, color):
         super().__init__(board, square, color, "king")
-        self.has_moved = False
-        self.bonuses = {Bonus.Knighted(): True}
+        self.value = 100
+        self.bonuses = {Bonus.Knighted(): False}
 
     def in_check(self, pos=None) -> bool:
         if pos is None:
             pos = self.game_pos
-        ls = []
         for piece in self.board.get_enemy_pieces(self.color):
-            ls.append(piece.can_capture_(self.game_pos))
-            # ls.append(any(self.game_pos == i for i in piece.moves))
-        return any(ls)
+            if piece.can_capture(pos):
+                print(piece.game_pos)
+        return any(piece.can_capture(pos) for piece in self.board.get_enemy_pieces(self.color))
 
     def checkmate(self) -> bool:
         possible_moves = [i for i in self.moves]
@@ -31,6 +30,19 @@ class King(Piece.Piece):
         return all(fail)
 
     def generate_moves(self):
-        self.moves = [(1, 0), (0, 1), (-1, 0), (1, 0), (1, 1), (-1, -1), (1, 1), (1, -1), (-1, 1)]
+        tuples = [(1, 0), (-1, 0), (0, 1), (0, -1), (-1, 1), (-1, -1), (1, 1), (1, -1)]
+        moves = []
+        for i in tuples:
+            newpos = add(self.game_pos, i)
+            if self.board.check_bounds(newpos):
+                if self.board.get_square(newpos).has_piece:
+                    if self.can_capture(newpos):
+                        moves.append(newpos)
+                else:
+                    moves.append(newpos)
 
-        return self.moves
+        return moves
+
+    def unique_update(self):
+        if self.in_check():
+            print("I'm in check!!!!!")

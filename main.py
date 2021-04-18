@@ -1,7 +1,7 @@
 import pygame
 
-from Board import Board
-from Board import board_gen
+from CBoard import Board
+from CBoard import board_gen
 import Pieces
 
 pygame.init()
@@ -25,9 +25,10 @@ while not gameEnd:
             square = board.get_square((pygame.mouse.get_pos()[0] // 80, pygame.mouse.get_pos()[1] // 80))
 
             if selected is None:
-                if square.piece.color == turn:
+                if square.has_piece and square.piece.color == turn:
                     selected = square.piece
-                    print(selected.moves)
+                    if not selected.moves:
+                        selected = None
             else:
                 if selected == square.piece:
                     selected = None
@@ -35,6 +36,8 @@ while not gameEnd:
                     selected.move(square.board_pos)
                     selected = None
                     turn = not turn
+                elif square.piece.color == selected.color:
+                    selected = square.piece
 
             if square.piece is not None:
                 if selected and square.piece != selected:
@@ -43,7 +46,6 @@ while not gameEnd:
                     else:
                         if square.piece == turn:
                             selected = square.piece
-
 
     for i in board.board:
         for k in i:

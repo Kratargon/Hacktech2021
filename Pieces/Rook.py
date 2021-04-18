@@ -19,10 +19,8 @@ class Rook(Piece.Piece):
         for key, value in self.bonuses.items():
             if value is True:
                 tuples += key.tuples
-                print(tuples)
         for i in tuples:
             self.moves.append(add(self.game_pos, i))
-            print(self.moves)
 
         return self.moves
 

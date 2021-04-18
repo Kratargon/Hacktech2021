@@ -17,8 +17,10 @@ class Knight(Piece.Piece):
             if self.board.check_bounds(newpos):
                 if self.board.get_square(newpos).has_piece:
                     if self.can_capture(newpos):
+                        print("here")
                         moves.append(newpos)
-                moves.append(newpos)
+                else:
+                    moves.append(newpos)
 
         self.moves = moves
 

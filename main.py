@@ -7,26 +7,15 @@ import Pieces
 pygame.init()
 
 board = Board.Board(8)
-# board.white_pieces = pygame.sprite.Group()
-# board.black_pieces = pygame.sprite.Group()
 
 screen = board.create_board()
 board.screen = screen
-# wking = Pieces.King(board, board.get_square((4, 7)), True)
-# brook = Pieces.Rook(board, board.get_square((1, 1)), False)
-# brook1 = Pieces.Rook(board, board.get_square((2, 2)), False)
 
-# bishop = Pieces.Bishop(board, board.get_square((5, 5)), True)
-
-# board.white_pieces.add(wking)
-# board.black_pieces.add(brook, brook1)
-
-# wknight = Pieces.Knight(board, board.get_square((1, 1)), True)
-# board.white_pieces.add(wknight)
-board_gen.gen_pawns(board)
+board_gen.gen_board(board)
 
 gameEnd = False
 selected: Pieces.Piece = None
+turn = True  # True = white, False = black
 
 while not gameEnd:
     for event in pygame.event.get():
@@ -36,23 +25,25 @@ while not gameEnd:
             square = board.get_square((pygame.mouse.get_pos()[0] // 80, pygame.mouse.get_pos()[1] // 80))
 
             if selected is None:
-                selected = square.piece
-
+                if square.piece.color == turn:
+                    selected = square.piece
+                    print(selected.moves)
             else:
                 if selected == square.piece:
                     selected = None
                 elif any(square == board.get_square(i) for i in selected.moves):
                     selected.move(square.board_pos)
                     selected = None
+                    turn = not turn
 
             if square.piece is not None:
                 if selected and square.piece != selected:
                     if any(square == board.get_square(i) for i in selected.moves):
                         selected.capture(square.piece)
                     else:
-                        selected = square.piece
+                        if square.piece == turn:
+                            selected = square.piece
 
-            print(selected)
 
     for i in board.board:
         for k in i:

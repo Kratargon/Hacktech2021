@@ -15,7 +15,6 @@ class Bishop(Piece.Piece):
                 tuples += key.tuples
         for i in tuples:
             self.smolFunction(i[0], i[1])
-        self.moves = []
 
         # self.smolFunction(1, 1)
         # self.smolFunction(1, -1)
@@ -32,4 +31,5 @@ class Bishop(Piece.Piece):
                     if self.can_capture(newpos):
                         self.moves.append(newpos)
                     break
+
                 self.moves.append(newpos)

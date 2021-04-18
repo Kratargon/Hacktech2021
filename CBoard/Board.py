@@ -15,7 +15,7 @@ class Board:
         self.screen = None
         self.boardState = 0
 
-    def create_board(self):
+    def create_board(self) -> pygame.Surface:
         temp = pygame.display.set_mode(
             (self.size * self.size * 10, self.size * self.size * 10))
 

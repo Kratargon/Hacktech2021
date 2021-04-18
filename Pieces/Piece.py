@@ -23,14 +23,15 @@ class Piece(pygame.sprite.Sprite):
         self.game_pos = (self.pos[0] // 80, self.pos[1] // 80)
         self.moves = []
 
-    def load_resource(self, color: bool, name: str):
+    @staticmethod
+    def load_resource(color: bool, name: str):
         return "textures/" + ("w" if color else "b") + name + ".png"
 
     def can_capture(self, pos: tuple) -> bool:
-        return self.board.get_square(pos).has_piece and self.board.get_square(pos).piece.color is not self.color and pos in self.moves
+        return self.board.get_square(pos).has_piece and self.board.get_square(pos).piece.color is not self.color
 
     def can_capture_(self, pos: tuple) -> bool:
-        return self.board.get_square(pos).has_piece and self.board.get_square(pos).piece.color is not self.color
+        return self.board.get_square(pos).has_piece and self.board.get_square(pos).piece.color is not self.color and pos in self.moves
 
     def move(self, newpos: tuple):
         self.has_moved = True
@@ -46,7 +47,7 @@ class Piece(pygame.sprite.Sprite):
             self.square = self.board.get_square(newpos)
         # self.moves = list(set(self.generate_moves()))
 
-    def simulate(self, newpos: tuple) -> int:
+    def move_val(self, newpos: tuple) -> int:
         val = 0
         square = self.board.get_square(newpos)
         if square.has_piece:
@@ -64,10 +65,8 @@ class Piece(pygame.sprite.Sprite):
         return []
 
     def on_select(self):
-        # self.moves = self.generate_moves()
         for i in self.moves:
-            self.board.screen.blit(self.board.get_square(
-                i).image, self.board.get_square(i).pos)
+            self.board.screen.blit(self.board.get_square(i).image, self.board.get_square(i).pos)
 
     def can_move(self, newpos):
         return self.board.get_square(newpos).has_piece and newpos != self.pos and self.can_capture(newpos)

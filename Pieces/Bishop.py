@@ -32,3 +32,6 @@ class Bishop(Piece.Piece):
 
                 moves.append(newpos)
         return moves
+
+    def unique_update(self):
+        pass

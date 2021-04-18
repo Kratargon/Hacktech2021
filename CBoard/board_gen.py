@@ -8,7 +8,7 @@ def gen_board(board: Board):
     gen_rooks(board)
     gen_knights(board)
     gen_bishops(board)
-    gen_royals(board)
+    gen_queens(board)
 
 
 def gen_pawns(board: Board):
@@ -41,9 +41,6 @@ def gen_bishops(board: Board):
     board.black_pieces.add(Pieces.Bishop(board, board.get_square((5, 0)), black))
 
 
-def gen_royals(board: Board):
+def gen_queens(board: Board):
     board.white_pieces.add(Pieces.Queen(board, board.get_square((3, 7)), white))
-    board.white_pieces.add(Pieces.King(board, board.get_square((4, 7)), white))
-
     board.black_pieces.add(Pieces.Queen(board, board.get_square((4, 0)), black))
-    board.white_pieces.add(Pieces.King(board, board.get_square((3, 0)), black))

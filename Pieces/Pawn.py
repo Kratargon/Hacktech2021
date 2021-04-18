@@ -29,3 +29,9 @@ class Pawn(Piece.Piece):
         if self.board.check_bounds(newpos) and self.can_capture(newpos):
             moves.append(newpos)
         return moves
+
+    def simulate_capture(self, newpos: tuple):
+        movement = -1 if self.color else 1
+        temp = [add(self.game_pos, (1, movement)), add(self.game_pos, (-1, movement))]
+
+        return temp

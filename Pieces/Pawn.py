@@ -1,6 +1,5 @@
 from Bonuses import Bonus
 from Pieces import Piece
-import Pieces
 
 
 from Utils.utils import add
@@ -43,20 +42,16 @@ class Pawn(Piece.Piece):
 
         return temp
 
-    def unique_update(self):
-        if self.game_pos[1] == (0 if self.color else self.board.size - 1):
-            self.promote()
-            self.kill()
-
-    def promote(self):
-        print(self.game_pos)
-        print(self.square.pos)
-        print(self.board.get_square(self.game_pos).pos)
-        if self.color:
-            piece = Pieces.Queen(self.board, self.board.get_square(
-                self.game_pos), self.color, self.qupgrade)
-            self.board.white_pieces.add(piece)
-            print(piece)
-        else:
-            self.board.black_pieces.add(Pieces.Queen(
-                self.board, self.board.get_square(self.game_pos), self.color, self.qupgrade))
+    # def unique_update(self):
+    #     if self.game_pos[1] == (0 if self.color else self.board.size - 1):
+    #         self.promote()
+    #         self.kill()
+    #
+    # def promote(self):
+    #     if self.color:
+    #         piece = Pieces.Queen(self.board, self.board.get_square(
+    #             self.game_pos), self.color, self.qupgrade)
+    #         self.board.white_pieces.add(piece)
+    #     else:
+    #         self.board.black_pieces.add(Pieces.Queen(
+    #             self.board, self.board.get_square(self.game_pos), self.color, self.qupgrade))

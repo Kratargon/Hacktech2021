@@ -15,16 +15,17 @@ upgrade_desc_font = pygame.font.SysFont("Comic Sans MS", 36)
 title_screen = pygame.display.set_mode((800, 800))
 white_diagonal_upgrades = []
 white_horizontal_upgrades = []
-white_knighted_upgrades = ["queen"]
+white_knighted_upgrades = []
 black_diagonal_upgrades = []
 black_horizontal_upgrades = []
 black_knighted_upgrades = []
-board = None
+board: Board.Board = None
 kings = {}
 show_welcome = True
 show_rules = False
 end = False
 game_over = False
+two_player = False
 
 
 def welcome_screen():
@@ -64,7 +65,12 @@ def rules_screen():
 
 def init_board(size):
     global wins, board, screen, white_diagonal_upgrades, white_horizontal_upgrades, white_knighted_upgrades, black_diagonal_upgrades, black_horizontal_upgrades, black_knighted_upgrades, kings, end, game_over, you_lose, you_win, turn
-
+    print(white_diagonal_upgrades)
+    print(white_horizontal_upgrades)
+    print(white_knighted_upgrades)
+    print(black_diagonal_upgrades)
+    print(black_horizontal_upgrades)
+    print(black_knighted_upgrades)
     end = False
     game_over = False
     you_lose = False
@@ -87,24 +93,30 @@ turn = True  # True = white, False = black
 
 
 def upgrade(color: bool, choice: int):
-    global level, white_diagonal_upgrades, white_horizontal_upgrades, white_knighted_upgrades, black_diagonal_upgrades, black_horizontal_upgrades, black_knighted_upgrades, game_over
-    upgrades = [random.choice(Bonuses.Diagonal.get_pieces()),
-                random.choice(Bonuses.Horizontal.get_pieces()), random.choice(Bonuses.Knighted.get_pieces())]
+    global level, white_diagonal_upgrades, white_horizontal_upgrades, white_knighted_upgrades, black_diagonal_upgrades,\
+        black_horizontal_upgrades, black_knighted_upgrades, game_over
+    wupgrades = [random.choice(list(set(Bonuses.Diagonal.get_pieces()) - set(white_diagonal_upgrades))),
+                 random.choice(list(set(Bonuses.Horizontal.get_pieces()) - set(white_horizontal_upgrades))),
+                 random.choice(list(set(Bonuses.Knighted.get_pieces()) - set(white_knighted_upgrades)))]
+
+    bupgrades = [random.choice(list(set(Bonuses.Diagonal.get_pieces()) - set(black_diagonal_upgrades))),
+                 random.choice(list(set(Bonuses.Horizontal.get_pieces()) - set(black_horizontal_upgrades))),
+                 random.choice(list(set(Bonuses.Knighted.get_pieces()) - set(black_knighted_upgrades)))]
 
     if color:
         if choice == 1:
-            white_diagonal_upgrades.append(upgrades[0])
+            white_diagonal_upgrades.append(wupgrades[0])
         elif choice == 2:
-            white_horizontal_upgrades.append(upgrades[1])
+            white_horizontal_upgrades.append(wupgrades[1])
         elif choice == 3:
-            white_knighted_upgrades.append(upgrades[2])
+            white_knighted_upgrades.append(wupgrades[2])
     else:
         if choice == 1:
-            black_diagonal_upgrades.append(upgrades[0])
+            black_diagonal_upgrades.append(bupgrades[0])
         elif choice == 2:
-            black_horizontal_upgrades.append(upgrades[1])
+            black_horizontal_upgrades.append(bupgrades[1])
         elif choice == 3:
-            black_knighted_upgrades.append(upgrades[2])
+            black_knighted_upgrades.append(bupgrades[2])
     game_over = False
     level += 1
     init_board(level)
@@ -136,32 +148,44 @@ while not end:
 
         elif not game_over:
             if event.type == pygame.MOUSEBUTTONDOWN:
-                square = board.get_square((pygame.mouse.get_pos()[0] // 80, pygame.mouse.get_pos()[1] // 80))
-
-                if selected is None:
-                    if square.has_piece and square.piece.color == turn:
-                        selected = square.piece
-                        if not selected.moves:
-                            selected = None
+                if not two_player and not turn:
+                    pass
                 else:
-                    if selected == square.piece:
-                        selected = None
-                    elif any(square == board.get_square(i) for i in selected.moves):
-                        selected.move(square.board_pos)
-                        selected = None
-                        turn = not turn
-                    elif square.piece is None:
-                        selected = None
-                    elif square.piece.color == selected.color:
-                        selected = square.piece
+                    square = board.get_square((pygame.mouse.get_pos()[0] // 80, pygame.mouse.get_pos()[1] // 80))
 
-                if square.piece is not None:
-                    if selected and square.piece != selected:
-                        if any(square == board.get_square(i) for i in selected.moves):
-                            selected.capture(square.piece)
-                        else:
-                            if square.piece == turn:
-                                selected = square.piece
+                    if selected is None:
+                        if square.has_piece and square.piece.color == turn:
+                            selected = square.piece
+                            if not selected.moves:
+                                selected = None
+                    else:
+                        if selected == square.piece:
+                            selected = None
+                        elif any(square == board.get_square(i) for i in selected.moves):
+                            selected.move(square.board_pos)
+                            selected = None
+                            turn = not turn
+                        elif square.piece is None:
+                            selected = None
+                        elif square.piece.color == selected.color:
+                            selected = square.piece
+
+                    if square.piece is not None:
+                        if selected and square.piece != selected:
+                            if any(square == board.get_square(i) for i in selected.moves):
+                                selected.capture(square.piece)
+                            else:
+                                if square.piece == turn:
+                                    selected = square.piece
+
+            if not two_player and not turn:
+                rand_piece = random.choice([i for i in board.black_pieces])
+                while not rand_piece.moves:
+                    rand_piece = random.choice([i for i in board.black_pieces])
+
+                rand_piece.move(random.choice(rand_piece.moves))
+                turn = True
+
             for i in board.board:
                 for k in i:
                     pygame.draw.rect(screen, k.color, k.rect)
@@ -212,13 +236,23 @@ while not end:
 
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_1:
-                    upgrade(wins, 1)
-
+                    if two_player:
+                        upgrade(wins, 1)
+                    elif wins:
+                        upgrade(wins, 1)
+                        upgrade(False, 1)
                 if event.key == pygame.K_2:
-                    upgrade(wins, 2)
-
+                    if two_player:
+                        upgrade(wins, 2)
+                    elif wins:
+                        upgrade(wins, 2)
+                        upgrade(False, 2)
                 if event.key == pygame.K_3:
-                    upgrade(wins, 3)
+                    if two_player:
+                        upgrade(wins, 3)
+                    elif wins:
+                        upgrade(wins, 3)
+                        upgrade(False, 3)
 
         pygame.display.flip()
 

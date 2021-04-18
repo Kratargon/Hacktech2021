@@ -1,6 +1,3 @@
-import operator
-import sys
-
 from Bonuses import Bonus
 from Pieces import Piece
 from Utils.utils import add
@@ -10,8 +7,7 @@ class King(Piece.Piece):
     def __init__(self, board, square, color):
         super().__init__(board, square, color, "king")
         self.has_moved = False
-        self.bonuses = {Bonus.Knighted: False}
-
+        self.bonuses = {Bonus.Knighted(): False}
 
     def in_check(self, pos=None) -> bool:
         if pos is None:

@@ -76,6 +76,7 @@ class Piece(pygame.sprite.Sprite):
 
     def update_piece(self):
         self.moves = self.generate_moves()
+
         self.pos = self.game_pos[0] * 80, self.game_pos[1] * 80
         self.rect.x = self.pos[0]
         self.rect.y = self.pos[1]

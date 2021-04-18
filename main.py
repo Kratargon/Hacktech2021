@@ -15,9 +15,9 @@ wking = Pieces.King(board, board.get_square((4, 7)), True)
 brook = Pieces.Rook(board, board.get_square((1, 1)), False)
 brook1 = Pieces.Rook(board, board.get_square((2, 2)), False)
 
-wbishop = Pieces.Bishop(board, board.get_square((5, 5)), True)
+bishop = Pieces.Bishop(board, board.get_square((5, 5)), True)
 
-board.white_pieces.add(wking, wbishop)
+board.white_pieces.add(wking)
 board.black_pieces.add(brook, brook1)
 
 # wknight = Pieces.Knight(board, board.get_square((1, 1)), True)

@@ -6,7 +6,7 @@ from Bonuses import Bonus
 class Knight(Piece.Piece):
     def __init__(self, board, square, color):
         super().__init__(board, square, color, "knight")
-        self.bonuses = {Bonus.Horizontal: False, Bonus.Diagonal: False}
+        self.bonuses = {Bonus.Horizontal(): False, Bonus.Diagonal(): False}
 
     def generate_moves(self):
         moves = []

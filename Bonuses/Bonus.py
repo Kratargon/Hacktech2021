@@ -19,3 +19,4 @@ class Knighted:
                        (-1, 2), (-2, 1), (2, -1), (1, -2)]
         self.pieces = [Pieces.King, Pieces.Queen]
 
+

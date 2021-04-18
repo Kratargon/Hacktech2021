@@ -9,8 +9,8 @@ class Board:
         self.board = [[] for i in range(size)]
         self.board_rects = []
         self.board_sprites = pygame.sprite.Group()
-        self.white_pieces = None
-        self.black_pieces = None
+        self.white_pieces = pygame.sprite.Group()
+        self.black_pieces = pygame.sprite.Group()
         self.screen = None
         self.boardState = 0
 

@@ -2,14 +2,14 @@ import pygame
 
 from Board import Board
 import Pieces
-import Random
+import random
 
 
 def randFrom(moveList, weights):
     tot = 0
     for i in weights:
         tot += i
-    temp = randint(0, tot)
+    temp = random.randint(0, tot)
     tmp = 0
     for i in range(weights):
         tmp += weights[i]

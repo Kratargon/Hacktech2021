@@ -12,19 +12,18 @@ class Piece(pygame.sprite.Sprite):
         self.pos = square.pos
         self.game_pos = self.pos[0] // 80, self.pos[1] // 80
         self.board = board
+        self.bonuses = {}
         self.square = square
         self.color = color  # True is white, False is black
         self.image = pygame.image.load(self.load_resource(color, image))
-        square.piece = self
-        square.has_piece = True
+        self.square.piece = self
+        self.square.has_piece = True
         self.rect = self.image.get_rect()
         self.rect.x = self.pos[0]
         self.rect.y = self.pos[1]
         self.moves = self.generate_moves()
-        self.bonuses = {}
 
-    @staticmethod
-    def load_resource(color: bool, name: str):
+    def load_resource(self, color: bool, name: str):
         return "textures/" + ("w" if color else "b") + name + ".png"
 
     def can_capture(self, pos: tuple) -> bool:
@@ -67,7 +66,8 @@ class Piece(pygame.sprite.Sprite):
         return []
 
     def on_select(self):
-        self.generate_moves()
+        self.moves = self.generate_moves()
+        print(self.moves)
         for i in self.moves:
             self.board.screen.blit(self.board.get_square(
                 i).image, self.board.get_square(i).pos)

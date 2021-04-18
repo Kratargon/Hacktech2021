@@ -5,23 +5,25 @@ from Utils.utils import add
 
 class Rook(Piece.Piece):
     def __init__(self, board, square, color):
-        self.bonuses = {Bonus.Knighted(): False, Bonus.Diagonal(): True}
         super().__init__(board, square, color, "rook")
+        self.bonuses = {Bonus.Knighted(): True, Bonus.Diagonal(): False}
 
     def generate_moves(self):
         self.moves = []
-        tuples = []
-        for key, value in self.bonuses.items():
-            if value is True:
-                tuples += key.tuples
-                print(key.tuples)
-        for i in tuples:
-            self.smolFunction(i[0], i[1])
-
         self.smolFunction(0, 1)
         self.smolFunction(0, -1)
         self.smolFunction(1, 0)
         self.smolFunction(-1, 0)
+        tuples = []
+
+        for key, value in self.bonuses.items():
+            if value is True:
+                tuples += key.tuples
+                print(tuples)
+        for i in tuples:
+            self.moves.append(add(self.game_pos, i))
+            print(self.moves)
+
         return self.moves
 
     def smolFunction(self, x, y):

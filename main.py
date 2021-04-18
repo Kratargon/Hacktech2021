@@ -1,27 +1,29 @@
 import pygame
 
 from Board import Board
+from Board import board_gen
 import Pieces
 
 pygame.init()
 
 board = Board.Board(8)
-board.white_pieces = pygame.sprite.Group()
-board.black_pieces = pygame.sprite.Group()
+# board.white_pieces = pygame.sprite.Group()
+# board.black_pieces = pygame.sprite.Group()
 
 screen = board.create_board()
 board.screen = screen
-wking = Pieces.King(board, board.get_square((4, 7)), True)
-brook = Pieces.Rook(board, board.get_square((1, 1)), False)
-brook1 = Pieces.Rook(board, board.get_square((2, 2)), False)
+# wking = Pieces.King(board, board.get_square((4, 7)), True)
+# brook = Pieces.Rook(board, board.get_square((1, 1)), False)
+# brook1 = Pieces.Rook(board, board.get_square((2, 2)), False)
 
 # bishop = Pieces.Bishop(board, board.get_square((5, 5)), True)
 
-board.white_pieces.add(wking)
-board.black_pieces.add(brook, brook1)
+# board.white_pieces.add(wking)
+# board.black_pieces.add(brook, brook1)
 
 # wknight = Pieces.Knight(board, board.get_square((1, 1)), True)
 # board.white_pieces.add(wknight)
+board_gen.gen_pawns(board)
 
 gameEnd = False
 selected: Pieces.Piece = None

@@ -19,11 +19,11 @@ def randFrom(moveList, weights):
 def createWeights(moveList, board):
     weights = []
     for i in moveList:
-        weights.append(weightMove(i, board))
+        weights.append(weightMove(i[0], i[1:-1], board))
     return weights
 
-def weightMove(move, board):
-    return nextGameState(move) – board.calculate_value() + 40
+def weightMove(pieces, move, board):
+    return piece.move_val(move) – board.calculate_value() + 40
 
 def logicHandler(board):
     moveList = generateMoves(board)
@@ -34,5 +34,7 @@ def logicHandler(board):
 def generateMoves(board):
     moveList = []
     for i in board.black_pieces:
-        for j in i.moves:
-            moveList.append(j)
+        if i.has_move():
+            moveList.append([i])
+            for j in i.moves:
+                moveList[-1].append(j)

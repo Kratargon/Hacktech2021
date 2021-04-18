@@ -60,4 +60,4 @@ class Board:
         return sum([i.value for i in (self.white_pieces if color else self.black_pieces)])
 
     def calculate_value(self):
-        return 40 + self.get_point_value(True) - self.get_point_value(False)
+        return 40 + self.get_point_value(False) - self.get_point_value(True)

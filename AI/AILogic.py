@@ -4,6 +4,7 @@ from Board import Board
 import Pieces
 import Random
 
+
 def randFrom(moveList, weights):
     tot = 0
     for i in weights:
@@ -16,6 +17,7 @@ def randFrom(moveList, weights):
             return moveList[i]
     return "ERROR"
 
+
 def weightMove(move):
     return nextGameState(move) – currentGameState(move)
-    #win = max_int, loss = 0, otherwise point value of my pieces - point value of enemy pieces
+    # win = max_int, loss = 0, otherwise point value of my pieces - point value of enemy pieces

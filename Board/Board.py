@@ -15,7 +15,8 @@ class Board:
         self.boardState = 0
 
     def create_board(self):
-        temp = pygame.display.set_mode((self.size * self.size * 10, self.size * self.size * 10))
+        temp = pygame.display.set_mode(
+            (self.size * self.size * 10, self.size * self.size * 10))
 
         flag = False
         current_coords = [0, 0]
@@ -23,9 +24,11 @@ class Board:
         for i in range(self.size):
             for k in range(self.size):
                 if flag:
-                    self.board[i].append(Square.Square((current_coords[0], current_coords[1]), color, self.size))
+                    self.board[i].append(Square.Square(
+                        (current_coords[0], current_coords[1]), color, self.size))
                 else:
-                    self.board[i].append(Square.Square((current_coords[0], current_coords[1]), (0, 0, 0), self.size))
+                    self.board[i].append(Square.Square(
+                        (current_coords[0], current_coords[1]), (0, 0, 0), self.size))
                 current_coords[0] += self.size * 10
                 if current_coords[0] >= self.size ** 2 * 10:
                     current_coords[1] += self.size * 10

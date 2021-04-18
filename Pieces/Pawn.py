@@ -4,8 +4,8 @@ from Utils.utils import add
 
 class Pawn(Piece.Piece):
     def __init__(self, board, square, color):
-        super().__init__(board, square, color, "pawn")
         self.first_turn = False
+        super().__init__(board, square, color, "pawn")
 
     def generate_moves(self):
         moves = []
@@ -25,4 +25,3 @@ class Pawn(Piece.Piece):
             moves.append(newpos)
 
         return moves
-

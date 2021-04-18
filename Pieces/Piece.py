@@ -1,4 +1,5 @@
-import operator, pygame
+import operator
+import pygame
 
 from Bonuses import Bonus
 
@@ -21,7 +22,6 @@ class Piece(pygame.sprite.Sprite):
         self.rect.y = self.pos[1]
         self.moves = self.generate_moves()
         self.bonuses = {}
-
 
     @staticmethod
     def load_resource(color: bool, name: str):
@@ -69,7 +69,8 @@ class Piece(pygame.sprite.Sprite):
     def on_select(self):
         self.generate_moves()
         for i in self.moves:
-            self.board.screen.blit(self.board.get_square(i).image, self.board.get_square(i).pos)
+            self.board.screen.blit(self.board.get_square(
+                i).image, self.board.get_square(i).pos)
 
     def can_move(self, newpos):
         return self.board.get_square(newpos).has_piece and newpos != self.pos and self.can_capture(newpos)

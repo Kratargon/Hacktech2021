@@ -8,9 +8,12 @@ import Pieces
 
 pygame.init()
 
-diagonal_upgrades = ["knight"]
-horizontal_upgrades = []
-knighted_upgrades = []
+white_diagonal_upgrades = []
+white_horizontal_upgrades = []
+white_knighted_upgrades = []
+black_diagonal_upgrades = []
+black_horizontal_upgrades = []
+black_knighted_upgrades = []
 screen = None
 board = None
 kings = {}
@@ -18,12 +21,14 @@ kings = {}
 
 def init_board(size):
 
-    global board, screen, diagonal_upgrades, horizontal_upgrades, knighted_upgrades, kings, gameEnd, upgrade, game_over, you_lose, you_win, turn
-    print(diagonal_upgrades)
-    print(horizontal_upgrades)
-    print(knighted_upgrades)
+    global wins, board, screen, white_diagonal_upgrades, white_horizontal_upgrades, white_knighted_upgrades, black_diagonal_upgrades, black_horizontal_upgrades, black_knighted_upgrades, kings, gameEnd, game_over, you_lose, you_win, turn
+    print(white_diagonal_upgrades)
+    print(white_horizontal_upgrades)
+    print(white_knighted_upgrades)
+    print(black_diagonal_upgrades)
+    print(black_horizontal_upgrades)
+    print(black_knighted_upgrades)
     gameEnd = False
-    upgrade = False
     game_over = False
     you_lose = False
     you_win = False
@@ -31,10 +36,10 @@ def init_board(size):
     size = 2 * size + 6
     board = Board.Board(size)
     screen = board.create_board()
-    kings = board_gen.gen_board(board, diagonal_upgrades, horizontal_upgrades, knighted_upgrades)
+    kings = board_gen.gen_board(board, white_diagonal_upgrades, white_horizontal_upgrades, white_knighted_upgrades, black_diagonal_upgrades, black_horizontal_upgrades, black_knighted_upgrades)
 
 
-level = 1
+level = 4
 font = pygame.font.SysFont("Comic Sans MS", 48)
 font2 = pygame.font.SysFont("Comic Sans MS", 36)
 youwin_image = font.render("you win", True, (0, 255, 0))
@@ -43,7 +48,32 @@ youlose_image = font.render("you lose", True, (255, 0, 0))
 selected: Pieces.Piece = None
 turn = True  # True = white, False = black
 
-init_board(1)
+
+def upgrade(color: bool, choice: int):
+    global level, white_diagonal_upgrades, white_horizontal_upgrades, white_knighted_upgrades, black_diagonal_upgrades, black_horizontal_upgrades, black_knighted_upgrades, game_over
+    upgrades = [random.choice(Bonuses.Diagonal.get_pieces()),
+                random.choice(Bonuses.Horizontal.get_pieces()), random.choice(Bonuses.Knighted.get_pieces())]
+
+    if color:
+        if choice == 1:
+            white_diagonal_upgrades.append(upgrades[0])
+        elif choice == 2:
+            white_horizontal_upgrades.append(upgrades[1])
+        elif choice == 3:
+            white_knighted_upgrades.append(upgrades[2])
+    else:
+        if choice == 1:
+            black_diagonal_upgrades.append(upgrades[0])
+        elif choice == 2:
+            black_horizontal_upgrades.append(upgrades[1])
+        elif choice == 3:
+            black_knighted_upgrades.append(upgrades[2])
+    game_over = False
+    level += 1
+    init_board(level)
+
+
+init_board(level)
 
 while not gameEnd:
     for event in pygame.event.get():
@@ -65,6 +95,8 @@ while not gameEnd:
                         selected.move(square.board_pos)
                         selected = None
                         turn = not turn
+                    elif square.piece is None:
+                        selected = None
                     elif square.piece.color == selected.color:
                         selected = square.piece
 
@@ -91,11 +123,11 @@ while not gameEnd:
 
         if not kings["white"].alive():
             game_over = True
-            you_lose = True
+            wins = False
 
         if not kings["black"].alive():
             game_over = True
-            upgrade = True
+            wins = True
 
         if you_win:
             screen.blit(youwin_image, (screen.get_width() // 2 - youwin_image.get_width() // 2, screen.get_height() // 2 - youwin_image.get_height() // 2))
@@ -103,10 +135,8 @@ while not gameEnd:
         if you_lose:
             screen.blit(youlose_image, (screen.get_width() // 2 - youlose_image.get_width() // 2, screen.get_height() // 2 - youlose_image.get_height() // 2))
 
-        if game_over and upgrade:
+        if game_over:
             screen.fill((0, 0, 0))
-            upgrades = [random.choice(Bonuses.Diagonal.get_pieces()),
-                        random.choice(Bonuses.Horizontal.get_pieces()), random.choice(Bonuses.Knighted.get_pieces())]
 
             diag_title = font.render(Bonuses.Diagonal.get_name()[0], True, (255, 0, 0))
             diag_body = font2.render(Bonuses.Diagonal.get_name()[1], True, (255, 0, 0))
@@ -120,32 +150,25 @@ while not gameEnd:
             screen.blit(diag_title, (0, 0))
             screen.blit(diag_body, (0, diag_title.get_height()))
 
-            screen.blit(horiz_title, (0, screen.get_height() // 2 - horiz_title.get_height() // 2 - horiz_body.get_height()))
+            screen.blit(horiz_title,
+                        (0, screen.get_height() // 2 - horiz_title.get_height() // 2 - horiz_body.get_height()))
             screen.blit(horiz_body, (0, screen.get_height() // 2))
 
-            screen.blit(knighted_title, (0, screen.get_height() - knighted_title.get_height() - knighted_body.get_height()))
+            screen.blit(knighted_title,
+                        (0, screen.get_height() - knighted_title.get_height() - knighted_body.get_height()))
             screen.blit(knighted_body, (0, screen.get_height() - knighted_body.get_height()))
 
             pygame.display.flip()
 
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_1:
-                    diagonal_upgrades.append(upgrades[0])
-                    upgrade = False
-                    level += 1
-                    init_board(level)
+                    upgrade(wins, 1)
 
                 if event.key == pygame.K_2:
-                    horizontal_upgrades.append(upgrades[1])
-                    upgrade = False
-                    level += 1
-                    init_board(level)
+                    upgrade(wins, 2)
 
                 if event.key == pygame.K_3:
-                    knighted_upgrades.append(upgrades[2])
-                    upgrade = False
-                    level += 1
-                    init_board(level)
+                    upgrade(wins, 3)
 
         if selected is not None:
             selected.on_select()

@@ -15,9 +15,24 @@ def randFrom(moveList, weights):
         tmp += weights[i]
         if temp < tmp:
             return moveList[i]
-    return "ERROR"
 
+def createWeights(moveList, board):
+    weights = []
+    for i in moveList:
+        weights.append(weightMove(i, board))
+    return weights
 
-def weightMove(move):
-    return nextGameState(move) – currentGameState(move)
-    # win = max_int, loss = 0, otherwise point value of my pieces - point value of enemy pieces
+def weightMove(move, board):
+    return nextGameState(move) – board.calculate_value() + 40
+
+def logicHandler(board):
+    moveList = generateMoves(board)
+    weights = createWeights(moveList, board)
+    move = randFrom(moveList, weights)
+    return move
+
+def generateMoves(board):
+    moveList = []
+    for i in board.black_pieces:
+        for j in i.moves:
+            moveList.append(j)

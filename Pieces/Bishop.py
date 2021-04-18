@@ -8,41 +8,17 @@ class Bishop(Piece.Piece):
 
     def generate_moves(self):
         moves = []
+        smolFunction(1, 1)
+        smolFunction(1, -1)
+        smolFunction(-1, 1)
+        smolFunction(-1, -1)
 
-        # up right
+    def smolFunction(self, x, y):
         for i in range(1, self.board.size):
-            newpos = add(self.game_pos, (i, i))
+            newpos = add(self.game_pos, (i * x, i * y))
             if self.board.check_bounds(newpos):
                 if self.board.get_square(newpos).has_piece and newpos != self.game_pos:
                     if self.can_capture(newpos):
                         moves.append(newpos)
                     break
-                moves.append(newpos)
-
-        for i in range(1, self.board.size):
-            newpos = add(self.game_pos, (i, -i))
-            if self.board.check_bounds(newpos):
-                if self.board.get_square(newpos).has_piece and newpos != self.game_pos:
-                    if self.can_capture(newpos):
-                        moves.append(newpos)
-                    break
-                moves.append(newpos)
-
-        for i in range(1, self.board.size):
-            newpos = add(self.game_pos, (-i, i))
-            if self.board.check_bounds(newpos):
-                if self.board.get_square(newpos).has_piece and newpos != self.game_pos:
-                    if self.can_capture(newpos):
-                        moves.append(newpos)
-                    break
-                moves.append(newpos)
-
-        for i in range(1, self.board.size):
-            newpos = add(self.game_pos, (-i, -i))
-            if self.board.check_bounds(newpos):
-                if self.board.get_square(newpos).has_piece and newpos != self.game_pos:
-                    if self.can_capture(newpos):
-                        moves.append(newpos)
-                    break
-                moves.append(newpos)
-        return moves
+                self.moves.append(newpos)

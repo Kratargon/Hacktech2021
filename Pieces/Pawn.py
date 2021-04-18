@@ -38,7 +38,8 @@ class Pawn(Piece.Piece):
 
     def simulate_capture(self, newpos: tuple):
         movement = -1 if self.color else 1
-        temp = [add(self.game_pos, (1, movement)), add(self.game_pos, (-1, movement))]
+        temp = [add(self.game_pos, (1, movement)),
+                add(self.game_pos, (-1, movement))]
 
         return temp
 
@@ -52,8 +53,10 @@ class Pawn(Piece.Piece):
         print(self.square.pos)
         print(self.board.get_square(self.game_pos).pos)
         if self.color:
-            piece = Pieces.Queen(self.board, self.board.get_square(self.game_pos), self.color, self.qupgrade)
+            piece = Pieces.Queen(self.board, self.board.get_square(
+                self.game_pos), self.color, self.qupgrade)
             self.board.white_pieces.add(piece)
             print(piece)
         else:
-            self.board.black_pieces.add(Pieces.Queen(self.board, self.board.get_square(self.game_pos), self.color, self.qupgrade))
+            self.board.black_pieces.add(Pieces.Queen(
+                self.board, self.board.get_square(self.game_pos), self.color, self.qupgrade))

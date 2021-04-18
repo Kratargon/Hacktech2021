@@ -28,6 +28,7 @@ class Knighted:
     def __init__(self):
         self.tuples = [(-2, -1), (-1, -2), (1, 2), (2, 1),
                        (-1, 2), (-2, 1), (2, -1), (1, -2)]
+
     @staticmethod
     def get_pieces():
         return ["king", "queen", "rook", "bishop"]

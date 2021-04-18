@@ -66,7 +66,8 @@ class Piece(pygame.sprite.Sprite):
 
     def on_select(self):
         for i in self.moves:
-            self.board.screen.blit(self.board.get_square(i).image, self.board.get_square(i).pos)
+            self.board.screen.blit(self.board.get_square(
+                i).image, self.board.get_square(i).pos)
 
     def can_move(self, newpos):
         return self.board.get_square(newpos).has_piece and newpos != self.pos and self.can_capture(newpos)

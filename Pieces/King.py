@@ -25,7 +25,8 @@ class King(Piece.Piece):
         return any(res)
 
     def generate_moves(self):
-        tuples = [(1, 0), (-1, 0), (0, 1), (0, -1), (-1, 1), (-1, -1), (1, 1), (1, -1)]
+        tuples = [(1, 0), (-1, 0), (0, 1), (0, -1),
+                  (-1, 1), (-1, -1), (1, 1), (1, -1)]
         moves = []
         for i in tuples:
             newpos = add(self.game_pos, i)

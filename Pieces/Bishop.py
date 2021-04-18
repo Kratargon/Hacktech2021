@@ -7,11 +7,19 @@ class Bishop(Piece.Piece):
         super().__init__(board, square, color, "bishop")
 
     def generate_moves(self):
+        self.moves = []
         moves = []
+<<<<<<< Updated upstream
         smolFunction(1, 1)
         smolFunction(1, -1)
         smolFunction(-1, 1)
         smolFunction(-1, -1)
+=======
+        self.smolFunction(1, 1)
+        self.smolFunction(1, -1)
+        self.smolFunction(-1, 1)
+        self.smolFunction(-1, -1)
+>>>>>>> Stashed changes
 
     def smolFunction(self, x, y):
         for i in range(1, self.board.size):
@@ -21,4 +29,8 @@ class Bishop(Piece.Piece):
                     if self.can_capture(newpos):
                         self.moves.append(newpos)
                     break
+<<<<<<< Updated upstream
                 self.moves.append(newpos)
+=======
+                self.moves.append(newpos)
+>>>>>>> Stashed changes

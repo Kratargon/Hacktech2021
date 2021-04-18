@@ -18,4 +18,5 @@ class Knight(Piece.Piece):
                 moves.append(newpos)
 
         self.moves = moves
+
         return moves

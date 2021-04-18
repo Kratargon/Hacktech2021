@@ -12,6 +12,7 @@ class Board:
         self.white_pieces = None
         self.black_pieces = None
         self.screen = None
+        self.boardState = 0
 
     def create_board(self):
         temp = pygame.display.set_mode((self.size * self.size * 10, self.size * self.size * 10))

@@ -26,7 +26,7 @@ class Bishop(Piece.Piece):
             i = add(self.game_pos, i)
             if self.board.check_bounds(i):
                 if self.board.get_square(i).has_piece and i != self.game_pos:
-                    if self.can_capture(i):
+                    if self.can_capture_(i):
                         moves.append(i)
                 else:
                     moves.append(i)

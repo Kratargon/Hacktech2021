@@ -21,7 +21,7 @@ def createWeights(moveList, board):
 
 
 def weightMove(move, board):
-    return (move[0].move_val(move[1]) - board.calculate_value() + 40) ** 100
+    return (move[0].move_val(move[1]) - board.calculate_value() + 40) ** 1000
 
 
 def logicHandler(board):

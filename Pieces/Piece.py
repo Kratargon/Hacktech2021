@@ -53,9 +53,9 @@ class Piece(pygame.sprite.Sprite):
         val = 0
         square = self.board.get_square(newpos)
         if square.has_piece:
-            if square.piece.color is not self.color:
+            if square.piece.color is self.color:
                 val = square.piece.value
-        return self.board.calculate_value() - val
+        return self.board.calculate_value() + val
 
     def capture(self, pos):
         self.board.get_square(pos).piece.kill()

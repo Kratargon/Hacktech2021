@@ -1,7 +1,6 @@
 import pygame
 
 from CBoard import Square
-from Pieces import white, black
 
 
 class Board:
@@ -16,8 +15,8 @@ class Board:
         self.boardState = 0
 
     def create_board(self) -> pygame.Surface:
-        temp = pygame.display.set_mode(
-            (self.size * self.size * 10, self.size * self.size * 10))
+        self.screen = pygame.display.set_mode(
+            (self.size * 8 * 10, self.size * 8 * 10))
 
         flag = False
         current_coords = [0, 0]
@@ -30,18 +29,18 @@ class Board:
                 else:
                     self.board[i].append(Square.Square(
                         (current_coords[0], current_coords[1]), (0, 0, 0), self.size))
-                current_coords[0] += self.size * 10
-                if current_coords[0] >= self.size ** 2 * 10:
-                    current_coords[1] += self.size * 10
+                current_coords[0] += 80
+                if current_coords[0] >= self.size * 8 * 10:
+                    current_coords[1] += 80
                     current_coords[0] = 0
                     flag = not flag
-                if current_coords[1] >= self.size ** 2 * 10:
-                    current_coords[0] += self.size * 10
+                if current_coords[1] >= self.size * 8 * 10:
+                    current_coords[0] += 80
                     current_coords[1] = 0
                     flag = not flag
                 flag = not flag
 
-        return temp
+        return self.screen
 
     def get_square(self, pos: tuple) -> Square.Square:
         return self.board[pos[1]][pos[0]]
@@ -61,4 +60,4 @@ class Board:
         return sum([i.value for i in (self.white_pieces if color else self.black_pieces)])
 
     def calculate_value(self):
-        return 40 + self.get_point_value(white) - self.get_point_value(black)
+        return 40 + self.get_point_value(True) - self.get_point_value(False)

@@ -4,10 +4,10 @@ from Utils.utils import add
 
 
 class Queen(Piece.Piece):
-    def __init__(self, board, square, color):
-        self.bonuses = {Bonus.Knighted(): False}
-        self.value = 9
+    def __init__(self, board, square, color, k: bool = None):
         super().__init__(board, square, color, "queen")
+        self.bonuses = {Bonus.Knighted(): k}
+        self.value = 9
 
     def generate_moves(self):
         moves = []
@@ -103,5 +103,18 @@ class Queen(Piece.Piece):
                             moves.append(newpos)
                         break
                     moves.append(newpos)
+
+        tuples = []
+        for key, value in self.bonuses.items():
+            if value is True:
+                tuples += key.tuples
+        for i in tuples:
+            i = add(self.game_pos, i)
+            if self.board.check_bounds(i):
+                if self.board.get_square(i).has_piece and i != self.game_pos:
+                    if self.can_capture(i):
+                        moves.append(i)
+                else:
+                    moves.append(i)
 
         return moves

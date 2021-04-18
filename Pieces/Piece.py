@@ -45,7 +45,6 @@ class Piece(pygame.sprite.Sprite):
             self.board.get_square(newpos).has_piece = True
             self.board.get_square(newpos).piece = self
             self.square = self.board.get_square(newpos)
-        # self.moves = list(set(self.generate_moves()))
 
     def move_val(self, newpos: tuple) -> int:
         val = 0

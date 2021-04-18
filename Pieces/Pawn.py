@@ -4,8 +4,8 @@ from Utils.utils import add
 
 class Pawn(Piece.Piece):
     def __init__(self, board, square, color):
-        self.value = 1
         super().__init__(board, square, color, "pawn")
+        self.value = 1
 
     def generate_moves(self):
         moves = []
